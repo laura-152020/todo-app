@@ -21,31 +21,151 @@
     </ion-button>
   </div>
 
-  <div *ngIf="tasks.length === 0" class="empty-state">
+  <div class="category-form">
+    <ion-item>
+      <ion-input
+        label="Nueva categoría"
+        labelPlacement="stacked"
+        placeholder="Escribe una categoría"
+        [(ngModel)]="newCategoryName"
+        (keyup.enter)="addCategory()">
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="block" color="secondary" class="add-button" (click)="addCategory()">
+      Agregar categoría
+    </ion-button>
+  </div>
+
+  <div class="filter-section">
+    <ion-item>
+      <ion-select
+        label="Filtrar por categoría"
+        labelPlacement="stacked"
+        [value]="selectedCategoryFilter"
+        (ionChange)="onCategoryFilterChange($event.detail.value)">
+        <ion-select-option value="all">Todas</ion-select-option>
+        <ion-select-option value="none">Sin categoría</ion-select-option>
+        <ion-select-option
+          *ngFor="let category of categories; trackBy: trackByCategoryId"
+          [value]="category.id">
+          {{ category.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <div class="categories-section" *ngIf="categories.length > 0">
+    <ion-text>
+      <h2>Categorías</h2>
+    </ion-text>
+
+    <ion-list>
+      <ion-item *ngFor="let category of categories; trackBy: trackByCategoryId">
+        <ng-container *ngIf="editingCategoryId !== category.id; else editCategoryBlock">
+          <ion-label>
+            {{ category.name }}
+          </ion-label>
+
+          <ion-button fill="clear" color="primary" slot="end" (click)="startEditCategory(category)">
+            Editar
+          </ion-button>
+
+          <ion-button fill="clear" color="danger" slot="end" (click)="deleteCategory(category.id)">
+            Eliminar
+          </ion-button>
+        </ng-container>
+
+        <ng-template #editCategoryBlock>
+          <ion-input
+            [(ngModel)]="editingCategoryName"
+            placeholder="Editar categoría">
+          </ion-input>
+
+          <ion-button fill="clear" color="success" slot="end" (click)="saveCategoryEdit()">
+            Guardar
+          </ion-button>
+
+          <ion-button fill="clear" color="medium" slot="end" (click)="cancelEditCategory()">
+            Cancelar
+          </ion-button>
+        </ng-template>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="filteredTasks.length === 0" class="empty-state">
     <ion-text color="medium">
-      <p>No hay tareas registradas todavía.</p>
+      <p>No hay tareas para el filtro seleccionado.</p>
     </ion-text>
   </div>
 
-  <ion-list *ngIf="tasks.length > 0">
-    <ion-item *ngFor="let task of tasks; trackBy: trackByTaskId">
-      <ion-checkbox
-        slot="start"
-        [checked]="task.completed"
-        (ionChange)="toggleTask(task.id)">
-      </ion-checkbox>
+  <ion-list *ngIf="filteredTasks.length > 0">
+    <ion-item *ngFor="let task of filteredTasks; trackBy: trackByTaskId">
+      <ng-container *ngIf="editingTaskId !== task.id; else editTaskBlock">
+        <ion-checkbox
+          slot="start"
+          [checked]="task.completed"
+          (ionChange)="toggleTask(task.id)">
+        </ion-checkbox>
 
-      <ion-label [class.completed]="task.completed">
-        {{ task.title }}
-      </ion-label>
+        <ion-label [class.completed]="task.completed">
+          <h3>{{ task.title }}</h3>
+          <p>{{ getCategoryName(task.categoryId) }}</p>
+        </ion-label>
 
-      <ion-button
-        fill="clear"
-        color="danger"
-        slot="end"
-        (click)="deleteTask(task.id)">
-        Eliminar
-      </ion-button>
+        <ion-select
+          slot="end"
+          interface="popover"
+          [value]="task.categoryId ?? 'none'"
+          (ionChange)="assignCategoryToTask(task.id, $event.detail.value)">
+          <ion-select-option value="none">Sin categoría</ion-select-option>
+          <ion-select-option
+            *ngFor="let category of categories; trackBy: trackByCategoryId"
+            [value]="category.id">
+            {{ category.name }}
+          </ion-select-option>
+        </ion-select>
+
+        <ion-button
+          fill="clear"
+          color="primary"
+          slot="end"
+          (click)="startEditTask(task)">
+          Editar
+        </ion-button>
+
+        <ion-button
+          fill="clear"
+          color="danger"
+          slot="end"
+          (click)="deleteTask(task.id)">
+          Eliminar
+        </ion-button>
+      </ng-container>
+
+      <ng-template #editTaskBlock>
+        <ion-input
+          [(ngModel)]="editingTaskTitle"
+          placeholder="Editar tarea">
+        </ion-input>
+
+        <ion-button
+          fill="clear"
+          color="success"
+          slot="end"
+          (click)="saveTaskEdit()">
+          Guardar
+        </ion-button>
+
+        <ion-button
+          fill="clear"
+          color="medium"
+          slot="end"
+          (click)="cancelEditTask()">
+          Cancelar
+        </ion-button>
+      </ng-template>
     </ion-item>
   </ion-list>
 </ion-content>

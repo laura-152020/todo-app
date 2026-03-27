@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { Category } from '../models/category.models';
 import { Task } from '../models/task.model';
+import { CategoryService } from '../services/category.services';
 import { TaskService } from '../services/task.service';
 
 @Component({
@@ -11,19 +13,59 @@ import { TaskService } from '../services/task.service';
 })
 export class HomePage implements OnInit {
   tasks: Task[] = [];
+  filteredTasks: Task[] = [];
+  categories: Category[] = [];
+
   newTaskTitle = '';
+  newCategoryName = '';
+
+  selectedCategoryFilter = 'all';
+
+  editingTaskId: string | null = null;
+  editingTaskTitle = '';
+
+  editingCategoryId: string | null = null;
+  editingCategoryName = '';
 
   constructor(
     private taskService: TaskService,
+    private categoryService: CategoryService,
     private toastController: ToastController
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
     this.loadTasks();
   }
 
   loadTasks(): void {
     this.tasks = this.taskService.getTasks();
+    this.applyCategoryFilter();
+  }
+
+  loadCategories(): void {
+    this.categories = this.categoryService.getCategories();
+  }
+
+  applyCategoryFilter(): void {
+    if (this.selectedCategoryFilter === 'all') {
+      this.filteredTasks = [...this.tasks];
+      return;
+    }
+
+    if (this.selectedCategoryFilter === 'none') {
+      this.filteredTasks = this.tasks.filter(task => !task.categoryId);
+      return;
+    }
+
+    this.filteredTasks = this.tasks.filter(
+      task => task.categoryId === this.selectedCategoryFilter
+    );
+  }
+
+  onCategoryFilterChange(value: string): void {
+    this.selectedCategoryFilter = value;
+    this.applyCategoryFilter();
   }
 
   async addTask(): Promise<void> {
@@ -37,7 +79,37 @@ export class HomePage implements OnInit {
     this.taskService.addTask(title);
     this.newTaskTitle = '';
     this.loadTasks();
+
     await this.showToast('Tarea agregada correctamente');
+  }
+
+  startEditTask(task: Task): void {
+    this.editingTaskId = task.id;
+    this.editingTaskTitle = task.title;
+  }
+
+  cancelEditTask(): void {
+    this.editingTaskId = null;
+    this.editingTaskTitle = '';
+  }
+
+  async saveTaskEdit(): Promise<void> {
+    const title = this.editingTaskTitle.trim();
+
+    if (!this.editingTaskId) {
+      return;
+    }
+
+    if (!title) {
+      await this.showToast('La tarea no puede estar vacía');
+      return;
+    }
+
+    this.taskService.updateTask(this.editingTaskId, title);
+    this.loadTasks();
+    this.cancelEditTask();
+
+    await this.showToast('Tarea actualizada correctamente');
   }
 
   toggleTask(id: string): void {
@@ -48,11 +120,92 @@ export class HomePage implements OnInit {
   async deleteTask(id: string): Promise<void> {
     this.taskService.deleteTask(id);
     this.loadTasks();
+
     await this.showToast('Tarea eliminada correctamente');
   }
 
-  trackByTaskId(index: number, task: Task): string {
+  async addCategory(): Promise<void> {
+    const name = this.newCategoryName.trim();
+
+    if (!name) {
+      await this.showToast('Debes escribir un nombre para la categoría');
+      return;
+    }
+
+    this.categoryService.addCategory(name);
+    this.newCategoryName = '';
+    this.loadCategories();
+
+    await this.showToast('Categoría agregada correctamente');
+  }
+
+  startEditCategory(category: Category): void {
+    this.editingCategoryId = category.id;
+    this.editingCategoryName = category.name;
+  }
+
+  cancelEditCategory(): void {
+    this.editingCategoryId = null;
+    this.editingCategoryName = '';
+  }
+
+  async saveCategoryEdit(): Promise<void> {
+    const name = this.editingCategoryName.trim();
+
+    if (!this.editingCategoryId) {
+      return;
+    }
+
+    if (!name) {
+      await this.showToast('El nombre de la categoría no puede estar vacío');
+      return;
+    }
+
+    this.categoryService.updateCategory(this.editingCategoryId, name);
+    this.loadCategories();
+    this.loadTasks();
+    this.cancelEditCategory();
+
+    await this.showToast('Categoría actualizada correctamente');
+  }
+
+  async deleteCategory(id: string): Promise<void> {
+    this.categoryService.deleteCategory(id);
+
+    const tasks = this.tasks.filter(task => task.categoryId === id);
+    tasks.forEach(task => this.taskService.assignCategory(task.id, null));
+
+    if (this.selectedCategoryFilter === id) {
+      this.selectedCategoryFilter = 'all';
+    }
+
+    this.loadCategories();
+    this.loadTasks();
+
+    await this.showToast('Categoría eliminada correctamente');
+  }
+
+  assignCategoryToTask(taskId: string, value: string | null | undefined): void {
+    const categoryId = value && value !== 'none' ? value : null;
+    this.taskService.assignCategory(taskId, categoryId);
+    this.loadTasks();
+  }
+
+  getCategoryName(categoryId: string | null | undefined): string {
+    if (!categoryId) {
+      return 'Sin categoría';
+    }
+
+    const category = this.categories.find(item => item.id === categoryId);
+    return category ? category.name : 'Sin categoría';
+  }
+
+  trackByTaskId(_: number, task: Task): string {
     return task.id;
+  }
+
+  trackByCategoryId(_: number, category: Category): string {
+    return category.id;
   }
 
   private async showToast(message: string): Promise<void> {

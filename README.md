@@ -76,8 +76,15 @@ src/
      ├── app-routing.module.ts
      ├── app.component.ts
      └── app.module.ts
-     
-## Fase 1: To-Do List base
-Se implementó la primera versión funcional de la aplicación, permitiendo agregar, listar, completar y eliminar tareas.  
-La información se almacena localmente mediante `localStorage`, lo que permite conservar las tareas al recargar la aplicación.  
-También se añadió un estado vacío para cuando no existan tareas registradas.
+
+## To-Do List base
+## Resumen de avance por fases
+
+### Fase 1: To-Do List base
+En esta fase se construyó la funcionalidad principal de la aplicación para la gestión de tareas. Se implementó el CRUD básico de tareas, permitiendo crear, listar, editar, completar y eliminar tareas. Además, se incorporó persistencia local mediante `localStorage`, mensajes de retroalimentación para el usuario y un estado vacío cuando no existen tareas registradas.
+
+### Fase 2: Estructura y mantenibilidad
+En esta fase se mejoró la organización interna del proyecto para mantener un código más limpio, legible y fácil de escalar. Se separaron correctamente los modelos, servicios y la vista principal, se centralizó la lógica de negocio en los servicios y se evitó incorporar lógica compleja en la plantilla HTML. Esto dejó el proyecto mejor preparado para seguir creciendo con nuevas funcionalidades.
+
+### Fase 3: Categorías
+En esta fase se implementó la gestión de categorías para las tareas. La aplicación ahora permite crear, editar y eliminar categorías, asignarlas a cada tarea y mostrar la categoría asociada en la interfaz. También se añadieron validaciones para evitar categorías vacías, dejando lista la base para la siguiente fase de filtrado por categoría.
