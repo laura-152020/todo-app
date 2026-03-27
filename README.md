@@ -88,3 +88,10 @@ En esta fase se mejoró la organización interna del proyecto para mantener un c
 
 ### Fase 3: Categorías
 En esta fase se implementó la gestión de categorías para las tareas. La aplicación ahora permite crear, editar y eliminar categorías, asignarlas a cada tarea y mostrar la categoría asociada en la interfaz. También se añadieron validaciones para evitar categorías vacías, dejando lista la base para la siguiente fase de filtrado por categoría.
+
+## Fase 4: Filtro por categoría
+
+En esta fase se implementó el filtrado de tareas por categoría, permitiendo al usuario visualizar únicamente las tareas asociadas a una categoría específica. Se añadió un selector visible y fácil de usar, con opciones para mostrar todas las tareas, únicamente las tareas sin categoría o las tareas pertenecientes a una categoría concreta. El filtro funciona correctamente tanto para tareas completadas como no completadas, mejorando la organización y la navegación dentro de la aplicación.
+
+## Fase 5: Experiencia de usuario
+Se mejoró la interfaz de la aplicación para hacerla más limpia, clara y agradable. Se ajustaron estilos, espaciados, tarjetas, visibilidad del estado completado y confirmaciones antes de eliminar. Además, se reforzó la retroalimentación al usuario y se mejoró la visualización en móvil.

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Category } from '../models/category.models';
 import { Task } from '../models/task.model';
 import { CategoryService } from '../services/category.services';
@@ -30,7 +30,8 @@ export class HomePage implements OnInit {
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertController: AlertController
   ) {}
 
   ngOnInit(): void {
@@ -117,11 +118,28 @@ export class HomePage implements OnInit {
     this.loadTasks();
   }
 
-  async deleteTask(id: string): Promise<void> {
-    this.taskService.deleteTask(id);
-    this.loadTasks();
+  async confirmDeleteTask(id: string): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Eliminar tarea',
+      message: '¿Estás seguro de que deseas eliminar esta tarea?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            this.taskService.deleteTask(id);
+            this.loadTasks();
+            await this.showToast('Tarea eliminada correctamente');
+          }
+        }
+      ]
+    });
 
-    await this.showToast('Tarea eliminada correctamente');
+    await alert.present();
   }
 
   async addCategory(): Promise<void> {
@@ -169,20 +187,38 @@ export class HomePage implements OnInit {
     await this.showToast('Categoría actualizada correctamente');
   }
 
-  async deleteCategory(id: string): Promise<void> {
-    this.categoryService.deleteCategory(id);
+  async confirmDeleteCategory(id: string): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Eliminar categoría',
+      message: '¿Deseas eliminar esta categoría? Las tareas asociadas quedarán sin categoría.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            this.categoryService.deleteCategory(id);
 
-    const tasks = this.tasks.filter(task => task.categoryId === id);
-    tasks.forEach(task => this.taskService.assignCategory(task.id, null));
+            const tasks = this.tasks.filter(task => task.categoryId === id);
+            tasks.forEach(task => this.taskService.assignCategory(task.id, null));
 
-    if (this.selectedCategoryFilter === id) {
-      this.selectedCategoryFilter = 'all';
-    }
+            if (this.selectedCategoryFilter === id) {
+              this.selectedCategoryFilter = 'all';
+            }
 
-    this.loadCategories();
-    this.loadTasks();
+            this.loadCategories();
+            this.loadTasks();
 
-    await this.showToast('Categoría eliminada correctamente');
+            await this.showToast('Categoría eliminada correctamente');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   assignCategoryToTask(taskId: string, value: string | null | undefined): void {
@@ -198,6 +234,10 @@ export class HomePage implements OnInit {
 
     const category = this.categories.find(item => item.id === categoryId);
     return category ? category.name : 'Sin categoría';
+  }
+
+  get completedTasksCount(): number {
+    return this.tasks.filter(task => task.completed).length;
   }
 
   trackByTaskId(_: number, task: Task): string {

@@ -1,23 +1,171 @@
-.task-form,
-.category-form,
-.filter-section {
+.page-content {
+  --background: #f5f7fb;
+}
+
+.page-shell {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-card,
+.section-card,
+.task-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.hero-card {
+  padding: 20px;
   margin-bottom: 20px;
 }
 
-.add-button {
+.hero-text h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.hero-text p {
+  margin: 0;
+  color: #667085;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.stat-card {
+  padding: 14px;
+  border-radius: 16px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #667085;
+}
+
+.section-card {
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.section-header {
+  margin-bottom: 12px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.custom-item,
+.select-item,
+.category-item {
+  --background: #131314;
+  --border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.primary-button {
+  margin-top: 10px;
+}
+
+.category-list,
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task-card {
+  padding: 14px;
+}
+
+.task-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1.35;
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.task-category {
+  color: #000000;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.task-controls {
   margin-top: 12px;
 }
 
-.categories-section {
-  margin-bottom: 24px;
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.edit-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .empty-state {
   text-align: center;
-  margin-top: 40px;
+}
+
+.empty-state h2 {
+  margin: 0 0 8px;
+  color: #0d0e0e;
+}
+
+.empty-state p {
+  margin: 0;
 }
 
 .completed {
   text-decoration: line-through;
-  opacity: 0.7;
+  opacity: 0.55;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
 }
