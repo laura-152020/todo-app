@@ -55,7 +55,7 @@
 
 .stat-label {
   font-size: 0.9rem;
-  color: #667085;
+  color: #202021;
 }
 
 .section-card {
@@ -71,13 +71,13 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #111827;
+  color: #000000;
 }
 
 .custom-item,
 .select-item,
 .category-item {
-  --background: #131314;
+  --background: #0e0e0e;
   --border-radius: 14px;
   margin-bottom: 10px;
 }
@@ -118,7 +118,7 @@
 }
 
 .task-category {
-  color: #000000;
+  color: #1b1b1b;
   font-size: 0.95rem;
   line-height: 1.3;
   margin-top: 4px;
@@ -148,7 +148,7 @@
 
 .empty-state h2 {
   margin: 0 0 8px;
-  color: #0d0e0e;
+  color: #020202;
 }
 
 .empty-state p {
@@ -168,4 +168,38 @@
   .actions {
     justify-content: flex-start;
   }
+}
+
+.custom-item ion-input,
+.custom-item ion-label,
+.select-item ion-select,
+.category-item ion-label {
+  color: rgb(250, 245, 245) !important;
+}
+
+ion-input {
+  --color: rgb(234, 223, 223);
+}
+
+ion-select {
+  --color: rgb(224, 218, 218);
+}
+
+ion-select::part(text) {
+  color: rgb(239, 228, 228);
+}
+
+ion-select::part(icon) {
+  color: rgb(255, 255, 255);
+}
+ion-input::part(native) {
+  color: rgb(246, 246, 246);
+}
+
+ion-input::placeholder {
+  color: #fbfbfb;
+}
+ion-input,
+ion-select {
+  --color: black;
 }

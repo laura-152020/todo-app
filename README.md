@@ -1,50 +1,38 @@
-# To-Do List App
-
-## Descripción
-Aplicación móvil To-Do List desarrollada con Ionic + Angular como parte de una prueba técnica. El objetivo es construir una aplicación híbrida que permita gestionar tareas, categorizarlas, filtrarlas por categoría e integrar Firebase Remote Config para habilitar o deshabilitar funcionalidades mediante feature flags.
-
-## Objetivo de la prueba
-Desarrollar una aplicación base con lista de tareas, soporte para categorías, integración con Firebase Remote Config, optimización de rendimiento y preparación para compilación móvil con Cordova.
-
-## Estado actual
+**Estado actual**
 - Entorno de desarrollo configurado correctamente en Windows.
-- Proyecto base creado con Ionic + Angular.
-- Aplicación ejecutándose correctamente con `ionic serve`.
+- Proyecto base creado con Ionic y Angular.
+- Aplicación ejecutándose correctamente con ionic serve.
 - Repositorio Git configurado y sincronizado con GitHub.
-- Rama de trabajo creada para el desarrollo incremental.
 - Modelo base de tareas implementado.
-- Servicio base de tareas implementado con persistencia local usando `localStorage`.
+- Servicio de tareas implementado con persistencia local usando localStorage.
 
-## Repositorio y control de versiones
+**Repositorio y control de versiones**
 
-### Repositorio remoto
-- `https://github.com/laura-152020/todo-app.git`
+**Repositorio remoto:** 
+https://github.com/laura-152020/todo-app.git
 
-### Ramas utilizadas
-- `main`: rama principal
-- `feature/todo-base`: rama de desarrollo actual
+**Ramas utilizadas**
+- main: rama principal
+- feature/todo-base: rama de desarrollo
 
-## Tecnologías y herramientas
-
-### Frameworks y librerías
+**Tecnologías y herramientas**
+**Frameworks y librerías**
 - Ionic
 - Angular
 - Cordova
 - LocalStorage
-
-### Herramientas de desarrollo
+- Herramientas de desarrollo
 - Node.js v25.8.2
 - npm 11.11.1
 - Ionic CLI 7.2.1
 - Cordova CLI 13.0.0
-- Git 2.53.0.windows.2
-- OpenJDK 21.0.9
-- Android Debug Bridge (adb) 1.0.41
+- Git
+- OpenJDK 21
+- Android SDK
+- Android Debug Bridge (adb)
 - Visual Studio Code
 
-## Requisitos previos
-Antes de ejecutar el proyecto, se debe contar con lo siguiente:
-
+**Requisitos previos**
 - Node.js
 - npm
 - Ionic CLI
@@ -52,22 +40,37 @@ Antes de ejecutar el proyecto, se debe contar con lo siguiente:
 - Git
 - Java
 - Android SDK
-- Android Platform Tools / adb
-- Visual Studio Code
+- Android Platform Tools (adb)
 
-## Instalación del proyecto
+**Instalación del proyecto**
 
 Clonar el repositorio:
 
-```bash
 git clone https://github.com/laura-152020/todo-app.git
 cd todo-app
 npm install
 
-## Ejecucion en entorno local
-Ionic serve
+**Ejecucion de la aplicacion**
+**Entorno web**
 
-## Estructura inicial del proyecto
+Para ejecutar la aplicación en el navegador:
+
+- ionic serve
+
+Esto iniciará un servidor local y permitirá visualizar la aplicación en el navegador.
+
+**Entorno móvil (Android)**
+
+Para ejecutar la aplicación en un emulador o dispositivo Android:
+
+- ionic build
+- cordova run android
+
+Este proceso compila la aplicación y la instala en el emulador o dispositivo conectado.
+
+
+
+**Estructura del proyecto**
 src/
  └── app/
      ├── home/
@@ -77,35 +80,71 @@ src/
      ├── app.component.ts
      └── app.module.ts
 
-## To-Do List base
-## Resumen de avance por fases
+**Cambios realizados**
 
-### Fase 1: To-Do List base
-En esta fase se construyó la funcionalidad principal de la aplicación para la gestión de tareas. Se implementó el CRUD básico de tareas, permitiendo crear, listar, editar, completar y eliminar tareas. Además, se incorporó persistencia local mediante `localStorage`, mensajes de retroalimentación para el usuario y un estado vacío cuando no existen tareas registradas.
+Durante el desarrollo de la prueba se implementaron las siguientes mejoras y funcionalidades:
 
-### Fase 2: Estructura y mantenibilidad
-En esta fase se mejoró la organización interna del proyecto para mantener un código más limpio, legible y fácil de escalar. Se separaron correctamente los modelos, servicios y la vista principal, se centralizó la lógica de negocio en los servicios y se evitó incorporar lógica compleja en la plantilla HTML. Esto dejó el proyecto mejor preparado para seguir creciendo con nuevas funcionalidades.
+- Implementación de un sistema completo de gestión de tareas (crear, editar, eliminar y completar).
+- Persistencia de datos utilizando localStorage.
+- Creación, edición y eliminación de categorías.
+- Asignación de categorías a las tareas.
+- Implementación de un sistema de filtrado por categoría.
+- Mejora de la experiencia de usuario mediante ajustes de diseño, validaciones y retroalimentación visual.
+- Integración de Firebase Remote Config para habilitar o deshabilitar funcionalidades mediante feature flags.
+- Optimización del rendimiento utilizando trackBy, evitando cálculos innecesarios en la vista y mejorando el acceso a datos mediante estructuras en memoria.
+- Configuración del proyecto para compilación móvil con Cordova.
+- Generación de APK y ejecución de la aplicación en un emulador Android.
 
-### Fase 3: Categorías
-En esta fase se implementó la gestión de categorías para las tareas. La aplicación ahora permite crear, editar y eliminar categorías, asignarlas a cada tarea y mostrar la categoría asociada en la interfaz. También se añadieron validaciones para evitar categorías vacías, dejando lista la base para la siguiente fase de filtrado por categoría.
+**Fase 1: To-Do List base**
 
-## Fase 4: Filtro por categoría
-En esta fase se implementó el filtrado de tareas por categoría, permitiendo al usuario visualizar únicamente las tareas asociadas a una categoría específica. Se añadió un selector visible y fácil de usar, con opciones para mostrar todas las tareas, únicamente las tareas sin categoría o las tareas pertenecientes a una categoría concreta. El filtro funciona correctamente tanto para tareas completadas como no completadas, mejorando la organización y la navegación dentro de la aplicación.
+Se implementó el CRUD completo de tareas, incluyendo creación, listado, edición, completado y eliminación. Se añadió persistencia local mediante localStorage y retroalimentación al usuario.
 
-## Fase 5: Experiencia de usuario
-Se mejoró la interfaz de la aplicación para hacerla más limpia, clara y agradable. Se ajustaron estilos, espaciados, tarjetas, visibilidad del estado completado y confirmaciones antes de eliminar. Además, se reforzó la retroalimentación al usuario y se mejoró la visualización en móvil.
+**Fase 2: Estructura y mantenibilidad**
 
-##Fase 6: Firebase + Remote Config
-Se integró Firebase en la aplicación, configurando correctamente el proyecto y conectándolo con la app. Se implementó Remote Config para gestionar funcionalidades de forma remota mediante feature flags. En particular, se configuró un flag para activar o desactivar el filtro por categoría, permitiendo modificar el comportamiento de la aplicación sin necesidad de cambiar el código. Se verificó su funcionamiento desde la consola de Firebase, comprobando cómo la interfaz responde dinámicamente al activar o desactivar el flag.
+Se organizó el proyecto separando modelos, servicios y vista. La lógica de negocio se centralizó en servicios, evitando lógica en la plantilla.
 
-##Fase 7: Rendimiento
+**Fase 3: Categorías**
 
-Se optimizó el rendimiento de la aplicación para garantizar un comportamiento fluido incluso con una gran cantidad de tareas. Se implementó trackBy en las listas para reducir renders innecesarios y se evitó recalcular filtros directamente en la vista, aplicándolos solo cuando cambian los datos. Se mantuvieron operaciones simples sobre arreglos y se optimizó la obtención de nombres de categorías mediante una estructura de acceso rápido en memoria. Además, se realizaron pruebas con múltiples tareas para verificar que la aplicación mantiene un rendimiento estable y una experiencia de usuario fluida.
+Se implementó la gestión de categorías, permitiendo crear, editar, eliminar y asignar categorías a las tareas.
 
-##Fase 8: Cordova y build móvil
+**Fase 4: Filtro por categoría**
 
-Se integró Cordova al proyecto y se agregó la plataforma Android para preparar la aplicación como app móvil híbrida. Se configuró el entorno de compilación con Android SDK, Command-line Tools y Gradle, y se realizó una compilación exitosa en Android, generando el archivo APK de depuración. También se probó la instalación y el lanzamiento de la app en un emulador Android. En el caso de iOS, se deja constancia de que la generación del build final requiere macOS y Xcode.
+Se agregó un sistema de filtrado para visualizar tareas por categoría, incluyendo opciones para todas, sin categoría o categorías específicas.
 
-##Fase 8: Cordova y build móvil
+**Fase 5: Experiencia de usuario**
 
-Se integró Cordova al proyecto para preparar la aplicación como app móvil híbrida. Se agregó la plataforma Android y se configuró el entorno necesario de compilación, incluyendo Android SDK, Command-line Tools y Gradle. Se realizó una compilación exitosa del proyecto, generando el archivo APK de depuración, y posteriormente se probó la ejecución de la aplicación en un emulador Android, verificando que la app abre y funciona correctamente. Además, se documentaron los pasos de compilación para facilitar la preparación del proyecto en otros entornos. En el caso de iOS, se deja constancia de que la generación del build final requiere macOS y Xcode.
+Se mejoró la interfaz con un diseño más claro, uso de tarjetas, mejor distribución visual y confirmaciones en acciones importantes.
+
+**Fase 6: Firebase y Remote Config**
+
+Se integró Firebase y se implementó Remote Config para controlar funcionalidades mediante feature flags. Se utilizó un flag para activar o desactivar el filtro por categoría.
+
+**Fase 7: Rendimiento**
+
+Se optimizó el rendimiento utilizando trackBy en listas, evitando recalcular filtros en la vista y utilizando una estructura de acceso rápido (categoryMap) para mejorar eficiencia.
+
+**Fase 8: Cordova y build móvil**
+
+Se integró Cordova, se agregó la plataforma Android y se configuró el entorno de compilación. Se generó exitosamente el APK y se ejecutó la aplicación en un emulador Android. La generación de IPA no se realizó debido a que requiere macOS y Xcode.
+
+**Fase 9: Entregables finales**
+
+Se organizó el proyecto para su entrega, se actualizó el README, se subió el código limpio al repositorio, se generó el APK y se prepararon evidencias visuales del funcionamiento.
+
+**Respuestas a preguntas técnicas**
+**¿Cuáles fueron los principales desafíos?**
+
+- Los principales desafíos se presentaron en la configuración del entorno móvil, incluyendo Android SDK, Gradle y variables de entorno. También hubo dificultades en la integración de Cordova y en la carga de la aplicación dentro del WebView.
+
+**¿Qué técnicas de optimización aplicaste?**
+
+- Se implementó trackBy para reducir renders innecesarios, se evitó lógica en el template y se utilizó categoryMap para optimizar búsquedas en memoria.
+
+**¿Cómo aseguraste la mantenibilidad del código?**
+
+- Se aplicó una arquitectura modular, separando responsabilidades en servicios y modelos. Se evitó lógica compleja en la vista y se mantuvo el código organizado y escalable.
+
+**APK**
+
+El archivo APK se encuentra incluido en el repositorio y permite instalar y ejecutar la aplicación en dispositivos Android.
+
