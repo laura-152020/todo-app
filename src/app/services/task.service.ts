@@ -40,7 +40,7 @@ export class TaskService {
   }
 
   deleteTask(id: string): void {
-    const tasks = this.getTasks().filter(task => task.id !== id);
-    this.saveTasks(tasks);
+  const tasks = this.getTasks().filter(task => task.id !== id);
+  this.saveTasks(tasks);
   }
 }
