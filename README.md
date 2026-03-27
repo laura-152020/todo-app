@@ -148,3 +148,7 @@ Se organizó el proyecto para su entrega, se actualizó el README, se subió el 
 
 El archivo APK se encuentra incluido en el repositorio y permite instalar y ejecutar la aplicación en dispositivos Android.
 
+**IPA**
+La generación del archivo IPA no fue realizada debido a que el entorno de desarrollo utilizado es Windows. La compilación de aplicaciones para iOS requiere obligatoriamente macOS y el uso de Xcode, herramientas exclusivas del ecosistema de Apple.
+
+En caso de contar con un entorno macOS, el proceso para generar el archivo IPA consistiría en agregar la plataforma iOS al proyecto mediante Cordova y realizar la compilación utilizando Xcode.
