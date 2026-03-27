@@ -68,7 +68,7 @@
       </ion-button>
     </div>
 
-    <div class="section-card">
+    <div class="section-card" *ngIf="showCategoryFilter">
       <div class="section-header">
         <h2>Filtro</h2>
       </div>
@@ -154,13 +154,13 @@
             </ion-checkbox>
 
             <div class="task-content">
-            <div class="task-title" [class.completed]="task.completed">
-              {{ task.title }}
+              <div class="task-title" [class.completed]="task.completed">
+                {{ task.title }}
+              </div>
+              <div class="task-category">
+                Categoría: {{ getCategoryName(task.categoryId) }}
+              </div>
             </div>
-            <div class="task-category">
-              Categoría: {{ getCategoryName(task.categoryId) }}
-            </div>
-          </div>
           </div>
 
           <div class="task-controls">

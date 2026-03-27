@@ -3,6 +3,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { Category } from '../models/category.models';
 import { Task } from '../models/task.model';
 import { CategoryService } from '../services/category.services';
+import { RemoteConfigService } from '../services/remote-config.service';
 import { TaskService } from '../services/task.service';
 
 @Component({
@@ -15,11 +16,13 @@ export class HomePage implements OnInit {
   tasks: Task[] = [];
   filteredTasks: Task[] = [];
   categories: Category[] = [];
+  categoryMap: Record<string, string> = {};
 
   newTaskTitle = '';
   newCategoryName = '';
 
   selectedCategoryFilter = 'all';
+  showCategoryFilter = true;
 
   editingTaskId: string | null = null;
   editingTaskTitle = '';
@@ -30,11 +33,15 @@ export class HomePage implements OnInit {
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService,
+    private remoteConfigService: RemoteConfigService,
     private toastController: ToastController,
     private alertController: AlertController
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.remoteConfigService.init();
+    this.showCategoryFilter = this.remoteConfigService.getShowCategoryFilter();
+
     this.loadCategories();
     this.loadTasks();
   }
@@ -46,10 +53,14 @@ export class HomePage implements OnInit {
 
   loadCategories(): void {
     this.categories = this.categoryService.getCategories();
+    this.categoryMap = this.categories.reduce((acc, category) => {
+      acc[category.id] = category.name;
+      return acc;
+    }, {} as Record<string, string>);
   }
 
   applyCategoryFilter(): void {
-    if (this.selectedCategoryFilter === 'all') {
+    if (!this.showCategoryFilter || this.selectedCategoryFilter === 'all') {
       this.filteredTasks = [...this.tasks];
       return;
     }
@@ -134,9 +145,9 @@ export class HomePage implements OnInit {
             this.taskService.deleteTask(id);
             this.loadTasks();
             await this.showToast('Tarea eliminada correctamente');
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -213,9 +224,9 @@ export class HomePage implements OnInit {
             this.loadTasks();
 
             await this.showToast('Categoría eliminada correctamente');
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -232,8 +243,7 @@ export class HomePage implements OnInit {
       return 'Sin categoría';
     }
 
-    const category = this.categories.find(item => item.id === categoryId);
-    return category ? category.name : 'Sin categoría';
+    return this.categoryMap[categoryId] || 'Sin categoría';
   }
 
   get completedTasksCount(): number {
